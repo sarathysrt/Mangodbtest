@@ -1,1 +1,3 @@
 https://www.safaribooksonline.com/library/view/50-tips-and/9781449306779/ch01.html
+
+https://mongolab.com/plans/pricing/
