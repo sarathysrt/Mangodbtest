@@ -55,7 +55,7 @@ public class MangodbCtTable {
 		array.add( document );
 		array.add( document );
 		
-		documentMap.put("detail", array);
+		documentMap.put("detail", documentMapDetail);
 		
 		collection.insert(new BasicDBObject(documentMap));
 		System.out.println("Created successfully");

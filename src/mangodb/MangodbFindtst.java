@@ -17,6 +17,8 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
+import experiment.Address;
+
 public class MangodbFindtst {
 
 	public static void main(String[] args) {
@@ -33,7 +35,8 @@ public class MangodbFindtst {
 //			BasicDBObject searchQuery1 = new BasicDBObject();
 //			searchQuery1.put("name",new BasicDBObject("$regex", "srt"));
             //DBCursor cursor3 = col2.find(new BasicDBObject("name",new BasicDBObject("$regex", "srt")), new BasicDBObject("name", 1).append("age", 1).append("_id", 0).append("gender", 1));
-			DBCursor cursor3 = col2.find(new BasicDBObject(),new BasicDBObject("_id", 0));//.append("database", true));
+			//DBCursor cursor3 = col2.find(new BasicDBObject(),new BasicDBObject("_id", 0));//.append("database", true));
+			DBCursor cursor3 = col2.find(new BasicDBObject(),null);//.append("database", true));
             List<DBObject> myList = null;
             BasicDBObject account=null;
             	//myList = cursor3.toArray();
@@ -48,15 +51,31 @@ public class MangodbFindtst {
         	  
         	  System.out.println(o.get("detail"));
         	  
-        	  ArrayList< DBObject > array = (ArrayList<DBObject>) o.get("detail");
-        	  array.forEach(System.out::println);
-        	  //BasicDBObject b = ( BasicDBObject ) o.get("detail");
-        	  //System.out.println(b.get("index"));
-        	  
-        	  
-          //System.out.println("hh"+cursor3.next());
-        	  
+//        	  String ss= "ssss";
+//        	  System.out.println(ss.charAt(0));
+        	  if (o.get("detail").toString().contains("["))
+        	  {
+        		  
+        		  //ArrayList< DBObject > array = (ArrayList<DBObject>) o.get("detail");
+				  //array.forEach(System.out::println);
+				  
+			        BasicDBList addresses = ( BasicDBList ) o.get( "detail" );
 
+			        for( Iterator< Object > it = addresses.iterator(); it.hasNext(); )
+			        {
+			            BasicDBObject dbo     = ( BasicDBObject ) it.next();
+			            System.out.println(dbo.get("index"));
+			            //address.makePojoFromBson( dbo );
+
+			            System.out.println( " ");
+			        }
+				  
+        	  }
+        	  else
+        	  {
+        		  BasicDBObject b = ( BasicDBObject ) o.get("detail");
+				  System.out.println(b.get("index"));
+        	  }
 
        }
             
@@ -82,6 +101,7 @@ public class MangodbFindtst {
 
 	}
 }
+
 
 
 

@@ -2,9 +2,11 @@ package mangodb;
 
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -22,41 +24,48 @@ public class MangodbFind {
 			boolean auth = db.authenticate("admin", "123456".toCharArray());
 			System.out.println("DB authentication"+auth);
 			
-			DBCollection table = db.getCollection("srt");
+			DBCollection table = db.getCollection("Documents");
 			
 
 			BasicDBObject searchQuery = new BasicDBObject();
 
-			searchQuery.put("name", "srt");
+			searchQuery.put("Name", "Documents");
 
 			DBCursor cursor = table.find(searchQuery);
 
 			while (cursor.hasNext()) {
-				System.out.println(cursor.next());
+				System.out.println("s"+cursor.next());
 			}
 			
-			DBCollection col2 = db.getCollection("hosting");
-//			BasicDBObject searchQuery1 = new BasicDBObject();
-//			searchQuery1.put("name",new BasicDBObject("$regex", "srt"));
-            //DBCursor cursor3 = col2.find(new BasicDBObject("name",new BasicDBObject("$regex", "srt")), new BasicDBObject("name", 1).append("age", 1).append("_id", 0).append("gender", 1));
-			DBCursor cursor3 = col2.find(new BasicDBObject(),new BasicDBObject("_id", 0));
-            List<DBObject> myList = null;
-            
-            myList = cursor3.toArray();
-            System.out.println("test"+cursor3.toString());
-            
-           myList.forEach(System.out::println);
+			DBCollection col2 = db.getCollection("Documents");
+			DBCursor query = col2.find(new BasicDBObject(),new BasicDBObject("_id", 0));
+//            List<DBObject> myList = null;
+//            myList = query.toArray();
+//           myList.forEach(System.out::println);
+			String Disp =null;
+			while (query.hasNext()) {
+				DBObject o = query.next();
+				Disp=o.get("Name").toString()+" -> Books read [";
+				if (o.get("BooksRead").toString().contains("[")){
+					BasicDBList addresses = ( BasicDBList ) o.get( "BooksRead" );
 
-
-//            int i3=1;
-//            while (cursor3.hasNext()) { 
-//               System.out.println("Inserted Document: "+i3); 
-//               //System.out.println(cursor3);
-//               System.out.println("hh"+cursor3.next());
-//               i3++;
-//            }
-//            
-
+			        for( Iterator< Object > it = addresses.iterator(); it.hasNext(); )
+			        {
+			            BasicDBObject dbo     = ( BasicDBObject ) it.next();
+			            //System.out.println(dbo.get("name"));
+			            Disp = Disp+" "+dbo.get("name")+",";
+			        }
+				  
+        	  }
+        	  else
+        	  {
+        		  BasicDBObject b = ( BasicDBObject ) o.get("BooksRead");
+				  System.out.println(b.get("names"));
+        	  }	
+				System.out.println(Disp+" ]");
+				
+			}
+			
 
             
 		} catch (UnknownHostException e) {
