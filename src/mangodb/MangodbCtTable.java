@@ -1,16 +1,21 @@
 package mangodb;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
 public class MangodbCtTable {
+	private ObjectId _id;
 	 public static void main( String args[] ){
 	// Since 2.10.0, uses MongoClient
 	try {
@@ -34,12 +39,23 @@ public class MangodbCtTable {
 		documentMap.put("database", "oracle");
 		documentMap.put("table", "hosting");
 			
+
 		Map<String, Object> documentMapDetail = new HashMap<String, Object>();
 		documentMapDetail.put("records", 199);
 		documentMapDetail.put("index", "vps_index2");
 		documentMapDetail.put("active", "true");
 		
-		documentMap.put("detail", documentMapDetail);
+		BasicDBObject document = new BasicDBObject();
+        document.put( "records",   15 );
+        document.put( "index", "12s3" );
+        document.put( "active",   "extra" );
+
+		
+		ArrayList< DBObject > array = new ArrayList< DBObject >();
+		array.add( document );
+		array.add( document );
+		
+		documentMap.put("detail", array);
 		
 		collection.insert(new BasicDBObject(documentMap));
 		System.out.println("Created successfully");

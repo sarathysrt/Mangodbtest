@@ -1,6 +1,7 @@
 package mangodb;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,15 +35,25 @@ public class MangodbFindtst {
             //DBCursor cursor3 = col2.find(new BasicDBObject("name",new BasicDBObject("$regex", "srt")), new BasicDBObject("name", 1).append("age", 1).append("_id", 0).append("gender", 1));
 			DBCursor cursor3 = col2.find(new BasicDBObject(),new BasicDBObject("_id", 0));//.append("database", true));
             List<DBObject> myList = null;
-            
-//            myList = cursor3.toArray();
+            BasicDBObject account=null;
+            	//myList = cursor3.toArray();
+            //myList.forEach(System.out::println);
 //            System.out.println("test"+cursor3.toString());
+            
           while (cursor3.hasNext()) { 
+        	  
         	  DBObject o = cursor3.next();
         	  System.out.println(o); 
         	  System.out.println(o.get("database"));
         	  
         	  System.out.println(o.get("detail"));
+        	  
+        	  ArrayList< DBObject > array = (ArrayList<DBObject>) o.get("detail");
+        	  array.forEach(System.out::println);
+        	  //BasicDBObject b = ( BasicDBObject ) o.get("detail");
+        	  //System.out.println(b.get("index"));
+        	  
+        	  
           //System.out.println("hh"+cursor3.next());
         	  
 
@@ -51,7 +62,7 @@ public class MangodbFindtst {
             
 
             
-          // myList.forEach(System.out::println);
+          // 
 
 
 //            int i3=1;
@@ -71,3 +82,6 @@ public class MangodbFindtst {
 
 	}
 }
+
+
+

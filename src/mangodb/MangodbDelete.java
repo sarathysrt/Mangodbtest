@@ -17,12 +17,13 @@ public class MangodbDelete {
 			boolean auth = db.authenticate("admin", "123456".toCharArray());
 			System.out.println("DB authentication"+auth);
 			
-			DBCollection table = db.getCollection("srt");
+			DBCollection table = db.getCollection("hosting");
+			table.drop();
 			
 			//DBCollection table = db.getCollection("user");
 
 			BasicDBObject searchQuery = new BasicDBObject();
-			searchQuery.put("name", "srt");
+			searchQuery.put("name", "hosting");
 
 			table.remove(searchQuery);
 			System.out.println("Removed successfully");
